@@ -1,0 +1,101 @@
+create database TrustCare
+use TrustCare
+CREATE TABLE User (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    PhoneNumber VARCHAR(20),
+    Address VARCHAR(255),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Caregiver (
+    CaregiverID INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    CNIC VARCHAR(20) NOT NULL,
+    ExperienceYears INT,
+    MonthlyRate DECIMAL(10, 2),
+    Location VARCHAR(100),
+    Address VARCHAR(255),
+    PhoneNumber VARCHAR(20),
+    Bio TEXT,
+    IsVerified BOOLEAN DEFAULT FALSE,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Admin (
+    AdminID INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Booking (
+    BookingID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    CaregiverID INT NOT NULL,
+    StartTime DATETIME NOT NULL,
+    EndTime DATETIME NOT NULL,
+    Status VARCHAR(20) DEFAULT 'Pending', -- 'Pending', 'Accepted', 'Completed'
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (CaregiverID) REFERENCES Caregiver(CaregiverID)
+);
+
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+    BookingID INT NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
+    Method VARCHAR(20),
+    Status VARCHAR(20) DEFAULT 'Paid',
+    PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID)
+);
+
+CREATE TABLE Review (
+    ReviewID INT PRIMARY KEY AUTO_INCREMENT,
+    BookingID INT NOT NULL,
+    Rating INT CHECK (Rating >= 1 AND Rating <= 5),
+    Comment TEXT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID)
+);
+
+CREATE TABLE Complaint (
+    ComplaintID INT PRIMARY KEY AUTO_INCREMENT,
+    BookingID INT NOT NULL,
+    SubmittedBy INT NOT NULL,
+    Description TEXT NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID),
+    FOREIGN KEY (SubmittedBy) REFERENCES User(UserID)
+);
+
+
+CREATE TABLE Message (
+    MessageID INT PRIMARY KEY AUTO_INCREMENT,
+    SenderID INT NOT NULL,
+    ReceiverID INT NOT NULL,
+    Content TEXT NOT NULL,
+    SentAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (SenderID) REFERENCES User(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
+);
+
+
+INSERT INTO User (FullName, Email, Password, PhoneNumber, Address)
+VALUES
+('Ali Raza', 'ali.raza@example.com', 'hashedpassword1', '03001234567', 'Model Town, Lahore'),
+('Fatima Zahra', 'fatima.zahra@example.com', 'hashedpassword2', '03121234567', 'F-10, Islamabad'),
+('Ahmed Khan', 'ahmed.khan@example.com', 'hashedpassword3', '03211234567', 'Clifton, Karachi');
+INSERT INTO Caregiver (FullName, Email, CNIC, ExperienceYears, HourlyRate, Location, Bio)
+VALUES
+('Sana', 'sana@example.com', '35202-1234567-1', 3, 500.00, 'Johar Town, Lahore', 'Experienced in elderly care. Friendly and patient.'),
+('Imran Javed', 'imran.javed@example.com', '42101-7654321-0', 5, 700.00, 'DHA, Karachi', 'Certified caregiver with 5 years experience in home care.'),
+('Ayesha', 'ayesha@example.com', '61101-2233445-9', 2, 400.00, 'G-11, Islamabad', 'Trained for babysitting and housekeeping.');
+INSERT INTO Admin (FullName, Email, Password)
+VALUES
+('Admin One', 'admin1@trustcare.pk', 'adminpass1'),
+('Admin Two', 'admin2@trustcare.pk', 'adminpass2');
