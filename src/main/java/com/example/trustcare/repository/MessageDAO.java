@@ -1,4 +1,4 @@
 package com.example.trustcare.repository;
 
-public class ComplaintResource {
+public class MessageDAO {
 }

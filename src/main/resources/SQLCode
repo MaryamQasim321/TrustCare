@@ -84,6 +84,21 @@ CREATE TABLE Message (
     FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
 );
 
+CREATE TABLE UnavailableSlot (
+    SlotID INT PRIMARY KEY AUTO_INCREMENT,
+    CaregiverID INT NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    Reason VARCHAR(255),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CaregiverID) REFERENCES Caregiver(CaregiverID)
+);
+
+
+
+
+
+
 
 INSERT INTO User (FullName, Email, Password, PhoneNumber, Address)
 VALUES
