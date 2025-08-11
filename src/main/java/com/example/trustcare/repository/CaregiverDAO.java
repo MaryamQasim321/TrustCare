@@ -33,8 +33,6 @@ public class CaregiverDAO {
     static final String SAVE_CNIC_URL="INSERT INTO CNICUploads (CaregiverID, CNICUrl) VALUES (?, ?)";
     StringBuilder updateCaregiverQuery = new StringBuilder("UPDATE Caregiver SET ");
 
-
-
     public List<Caregiver> getAllCareGivers() {
         List<Caregiver> caregivers = new ArrayList<>();
         try (Connection connection = DatabaseConnectorService.getConnection();
@@ -43,17 +41,19 @@ public class CaregiverDAO {
         ) {
             while (rs.next()) {
                 Caregiver caregiver = new Caregiver();
-                caregiver.setCareGiverId(rs.getInt("id"));
+                caregiver.setCareGiverId(rs.getInt("caregiverid"));
                 caregiver.setAddress(rs.getString("address"));
                 caregiver.setBio(rs.getString("bio"));
                 caregiver.setCNIC(rs.getString("cnic"));
                 caregiver.setEmail(rs.getString("email"));
-                caregiver.setContact(rs.getString("contact"));
-                caregiver.setExperienceYears(rs.getInt("experience_years"));
-                caregiver.setFullName(rs.getString("full_name"));
-                caregiver.setMonthlyRate(rs.getInt("monthly_rate"));
+                caregiver.setContact(rs.getString("PhoneNumber"));
+                caregiver.setExperienceYears(rs.getInt("experienceYears"));
+                caregiver.setFullName(rs.getString("fullname"));
+                caregiver.setMonthlyRate(rs.getInt("monthlyrate"));
                 caregiver.setLocation(rs.getString("location"));
                 caregiver.setPassword(rs.getString("password"));
+                caregiver.setVerified(rs.getBoolean("isverified"));
+
                 caregivers.add(caregiver);
             }
             logger.info(LogUtils.info("caregivers found"));
@@ -272,12 +272,6 @@ public class CaregiverDAO {
         return complaints;
     }
 
-    //Edit profile, update certifications/skills
-//    @PUT
-//    @Path("/{id}")
-//    public Response editCaregiver(@PathParam("id") int id) {
-//    return;
-//    }
 
     public void saveCNICURL(int caregiverId, String url) {
 
@@ -375,13 +369,4 @@ public class CaregiverDAO {
         }
 
     }
-
-
-
-
-//    //Upload CNIC/police report
-//    @POST
-//    @Path("/{id}/verification")
-//    public Response verify(@PathParam("id") int id) {
-//    }
 }

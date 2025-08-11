@@ -32,6 +32,7 @@ public class CaregiverResource {
 
     @GET
     public Response getCaregivers() {
+        System.out.println("caregiver called");
         try {
             List<Caregiver> caregivers = caregiverDAO.getAllCareGivers();
             logger.info(LogUtils.success("All caregivers retrieved"));

@@ -9,10 +9,20 @@ public class Caregiver {
     private String CNIC;
     private int experienceYears;
     private float monthlyRate;
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
     private String location;
     private String bio;
     private String contact;
     private String address;
+    private boolean isVerified;
 
     public int getCareGiverId() {
         return careGiverId;
