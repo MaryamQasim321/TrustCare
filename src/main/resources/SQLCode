@@ -15,6 +15,7 @@ CREATE TABLE Caregiver (
     FullName VARCHAR(100) NOT NULL,
     Email VARCHAR(100) NOT NULL UNIQUE,
     CNIC VARCHAR(20) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
     ExperienceYears INT,
     MonthlyRate DECIMAL(10, 2),
     Location VARCHAR(100),
@@ -24,6 +25,7 @@ CREATE TABLE Caregiver (
     IsVerified BOOLEAN DEFAULT FALSE,
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE Admin (
     AdminID INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,6 +85,30 @@ CREATE TABLE Message (
     FOREIGN KEY (SenderID) REFERENCES User(UserID),
     FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
 );
+
+CREATE TABLE UnavailableSlot (
+    SlotID INT PRIMARY KEY AUTO_INCREMENT,
+    CaregiverID INT NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    Reason VARCHAR(255),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CaregiverID) REFERENCES Caregiver(CaregiverID)
+);
+
+CREATE TABLE CNICUploads (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    CaregiverID INT NOT NULL,
+    CNICUrl VARCHAR(255) NOT NULL,
+    UploadedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CaregiverID) REFERENCES Caregiver(CaregiverID) ON DELETE CASCADE
+);
+
+
+
+
+
+
 
 
 INSERT INTO User (FullName, Email, Password, PhoneNumber, Address)
