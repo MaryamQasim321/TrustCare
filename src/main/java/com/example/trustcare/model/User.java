@@ -1,13 +1,40 @@
 package com.example.trustcare.model;
+import com.example.trustcare.enums.Role;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.sql.Timestamp;
+
+
+@Entity
+@Table(name = "user")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId", nullable = true)
         private int userId;
-        private String fullName;
-        private String address;
-        private String email;
-        private String password;
-        private String contact;
-        private Timestamp createdAt;
+    @Column(name = "fullName", nullable = true)
+
+    private String fullName;
+    @Column(name = "address", nullable = true)
+
+    private String address;
+    @Column(name = "email", nullable = true)
+
+    private String email;
+    @Column(name = "password", nullable = true)
+
+    private String password;
+    @Column(name = "contact", nullable = true)
+
+    private String contact;
+    @CreationTimestamp
+    @Column(name = "createdAt", updatable = false)
+    private Timestamp createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
 
     public int getUserId() {
         return userId;

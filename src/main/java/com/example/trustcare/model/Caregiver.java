@@ -1,28 +1,60 @@
 package com.example.trustcare.model;
 
+import com.example.trustcare.enums.Role;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "caregiver")
 public class Caregiver {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "caregiverID")
     private int careGiverId;
+
+    @Column(name = "fullname",nullable = true, length = 100)
     private String fullName;
+
+    @Column(name = "email",nullable = true, unique = true, length = 100)
     private String email;
+
+    @Column(name = "password",nullable = true)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.CAREGIVER;
+
+    @Column(name = "cnic", nullable = true, unique = true, length = 20)
     private String CNIC;
+
+    @Column(name = "experienceYears",nullable = true)
     private int experienceYears;
-    private float monthlyRate;
 
-    public boolean isVerified() {
-        return isVerified;
-    }
+    // Changed from float to BigDecimal for money-related precision
+    @Column(name = "monthlyRate",nullable = true, precision = 10, scale = 2)
+    private BigDecimal monthlyRate;
 
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
+    @CreationTimestamp
+    @Column(name = "createdAt",updatable = true)
+    private LocalDateTime createdAt;
 
     private String location;
+
+    @Column(name = "bio")
     private String bio;
+
     private String contact;
+
     private String address;
+
+    @Column(name = "isverified",nullable = true)
     private boolean isVerified;
+
+    // Getters and setters
 
     public int getCareGiverId() {
         return careGiverId;
@@ -72,12 +104,20 @@ public class Caregiver {
         this.experienceYears = experienceYears;
     }
 
-    public float getMonthlyRate() {
+    public BigDecimal getMonthlyRate() {
         return monthlyRate;
     }
 
-    public void setMonthlyRate(float monthlyRate) {
+    public void setMonthlyRate(BigDecimal monthlyRate) {
         this.monthlyRate = monthlyRate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getLocation() {
@@ -110,5 +150,13 @@ public class Caregiver {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
 }

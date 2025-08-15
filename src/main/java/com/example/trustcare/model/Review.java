@@ -1,13 +1,32 @@
 package com.example.trustcare.model;
 
-import java.sql.Timestamp;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "review")
 public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reviewID")
     private int reviewId;
+
+    @Column(name = "bookingID", nullable = false)
     private int bookingId;
+
+    @Column(name = "comment")
     private String comment;
-    private Timestamp createdAt;
+
+    @CreationTimestamp
+    @Column(name = "createdat", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "rating",nullable = false)
     private int rating;
+
 
     public int getReviewId() {
         return reviewId;
@@ -33,11 +52,12 @@ public class Review {
         this.comment = comment;
     }
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    // Usually createdAt is auto-set, so setter is optional
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

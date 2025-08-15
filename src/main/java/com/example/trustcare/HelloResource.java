@@ -1,18 +1,20 @@
 package com.example.trustcare;
-import com.example.trustcare.Logging.LogUtils;
+
+
+import jakarta.ws.rs.GET;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-@Path("/hello")
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class HelloResource {
-    private static final Logger logger = LoggerFactory.getLogger(TrustCareApplication.class);
+//    private static final Logger logger = LoggerFactory.getLogger(HelloResource.class);
     static {
-    logger.info(LogUtils.info("application loaded"));
+//    logger.info(LogUtils.info("application loaded"));
     System.out.println("HelloResource constructor called");
 }
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @GetMapping("/hello")
     public String sayHello() {
         return "Hello from TrustCare API!";
     }
