@@ -1,12 +1,19 @@
 package com.example.trustcare;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@ApplicationPath("/api")
-public class TrustCareApplication extends Application {
+@SpringBootApplication
+public class TrustCareApplication extends SpringBootServletInitializer {
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(TrustCareApplication.class);
+    }
 
-
-
+    public static void main(String[] args) {
+        SpringApplication.run(TrustCareApplication.class, args);
+    }
 }

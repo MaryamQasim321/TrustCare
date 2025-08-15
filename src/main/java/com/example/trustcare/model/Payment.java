@@ -1,14 +1,35 @@
 package com.example.trustcare.model;
+
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "payment")
 public class Payment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "paymentID")
     private int paymentID;
+
+    @Column(name = "bookingID", nullable = false)
     private int bookingID;
+
+    @Column(name = "amount",nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
+
+    @Column(name = "method",nullable = false, length = 50)
     private String method;
+
+    @Column(name = "status",nullable = false, length = 50)
     private String status;
+
+    @Column(name = "paymentdate", nullable = false)
     private LocalDateTime paymentDate;
+
+    // Getters and setters
+
     public int getPaymentID() {
         return paymentID;
     }

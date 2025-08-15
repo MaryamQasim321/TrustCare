@@ -1,13 +1,34 @@
 package com.example.trustcare.model;
 
-import java.sql.Timestamp;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "complaint")
 public class Complaint {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "complaintID")
     private int complaintId;
-    private int bookingId;
+
+    @ManyToOne
+    @JoinColumn(name = "bookingID", nullable = false)
+    private Booking booking;
+
+    @Column(name = "submittedby", nullable = false)
     private int submittedBy;
+
+    @Column(name = "description", nullable = false)
     private String description;
-    private Timestamp createdAt;
+
+    @CreationTimestamp
+    @Column(name = "createdat", updatable = false)
+    private LocalDateTime createdAt;
+
+    // Getters and setters
 
     public int getComplaintId() {
         return complaintId;
@@ -17,12 +38,13 @@ public class Complaint {
         this.complaintId = complaintId;
     }
 
-    public int getBookingId() {
-        return bookingId;
+    public Booking getBooking() {
+
+        return booking;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public int getSubmittedBy() {
@@ -41,11 +63,12 @@ public class Complaint {
         this.description = description;
     }
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    // No setter for createdAt if you want it to be auto-set only
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

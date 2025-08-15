@@ -1,15 +1,38 @@
 package com.example.trustcare.model;
+
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-public class Booking {
-private int bookingId;
-private int userId;
-private int caregiverId;
-private Timestamp startTime;
-private Timestamp endTime;
-private String status;
-private BigDecimal totalAmount;
 
+@Entity
+@Table(name = "Booking") // Matches your DB table name
+public class Booking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment PK
+    @Column(name = "BookingID")
+    private int bookingId;
+
+    @Column(name = "UserID", nullable = false)
+    private int userId;
+
+    @Column(name = "CaregiverID", nullable = false)
+    private int caregiverId;
+
+
+    @Column(name = "StartTime", nullable = true)
+    private Timestamp startTime;
+
+    @Column(name = "EndTime", nullable = true)
+    private Timestamp endTime;
+
+    @Column(name = "Status", length = 20)
+    private String status;
+
+    @Column(name = "TotalAmount", precision = 10, scale = 2)
+    private BigDecimal totalAmount;
+
+    // Getters and Setters
     public int getBookingId() {
         return bookingId;
     }

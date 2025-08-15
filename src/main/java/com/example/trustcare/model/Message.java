@@ -1,15 +1,33 @@
 package com.example.trustcare.model;
 
-import java.sql.Timestamp;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "message")
 public class Message {
-private int messageId;
-private String content;
-private int receiverId;
-private LocalDateTime sentAt;
-private int senderId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "messageID")
+    private int messageId;
+
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    private String content;
+
+    @Column(name = "receiverID", nullable = false)
+    private int receiverId;
+
+    @Column(name = "sentat", nullable = false)
+    private LocalDateTime sentAt;
+
+    @Column(name = "senderID", nullable = false)
+    private int senderId;
+
+    @Column(name = "receivedat")
     private LocalDateTime receivedAt;
+
+    // Getters and setters
 
     public int getMessageId() {
         return messageId;
