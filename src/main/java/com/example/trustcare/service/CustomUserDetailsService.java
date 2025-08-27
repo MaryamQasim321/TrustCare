@@ -1,9 +1,6 @@
 package com.example.trustcare.services;
 
 import com.example.trustcare.enums.Role;
-import com.example.trustcare.repository.AdminRepository;
-import com.example.trustcare.repository.CaregiverRepository;
-import com.example.trustcare.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
