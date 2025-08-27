@@ -1,38 +1,34 @@
 package com.example.trustcare.model;
 
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import lombok.Data;
 
-@Entity
-@Table(name = "Booking") // Matches your DB table name
+@Data
 public class Booking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment PK
-    @Column(name = "BookingID")
+    @Schema(description = "Unique ID for the booking", example = "101")
     private int bookingId;
 
-    @Column(name = "UserID", nullable = false)
+    @Schema(description = "ID of the user who made the booking", example = "15")
     private int userId;
 
-    @Column(name = "CaregiverID", nullable = false)
+    @Schema(description = "ID of the caregiver assigned", example = "7")
     private int caregiverId;
 
-
-    @Column(name = "StartTime", nullable = true)
+    @Schema(description = "Booking start time", example = "2025-08-22T10:00:00Z")
     private Timestamp startTime;
 
-    @Column(name = "EndTime", nullable = true)
+    @Schema(description = "Booking end time", example = "2025-08-22T12:00:00Z")
     private Timestamp endTime;
 
-    @Column(name = "Status", length = 20)
+    @Schema(description = "Current status of booking", example = "CONFIRMED")
     private String status;
 
-    @Column(name = "TotalAmount", precision = 10, scale = 2)
+    @Schema(description = "Total amount for the booking", example = "1500.50")
     private BigDecimal totalAmount;
 
-    // Getters and Setters
     public int getBookingId() {
         return bookingId;
     }

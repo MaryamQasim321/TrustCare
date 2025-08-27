@@ -1,33 +1,31 @@
 package com.example.trustcare.model;
 
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "message")
+@Data
 public class Message {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "messageID")
+    @Schema(description = "Unique identifier of the message", type = "integer", example = "5001")
     private int messageId;
 
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    @Schema(description = "Content of the message", type = "String", example = "Hello, your appointment is confirmed.")
     private String content;
 
-    @Column(name = "receiverID", nullable = false)
+    @Schema(description = "ID of the message receiver (User ID)", type = "integer", example = "102")
     private int receiverId;
 
-    @Column(name = "sentat", nullable = false)
+    @Schema(description = "Timestamp when the message was sent", type = "LocalDateTime", example = "2025-08-22T09:15:00")
     private LocalDateTime sentAt;
 
-    @Column(name = "senderID", nullable = false)
+    @Schema(description = "ID of the message sender (User ID)", type = "integer", example = "201")
     private int senderId;
 
-    @Column(name = "receivedat")
+    @Schema(description = "Timestamp when the message was received", type = "local date time", example = "2025-08-22T09:16:05")
     private LocalDateTime receivedAt;
 
-    // Getters and setters
 
     public int getMessageId() {
         return messageId;

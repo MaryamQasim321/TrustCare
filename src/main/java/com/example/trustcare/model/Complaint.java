@@ -1,34 +1,29 @@
 package com.example.trustcare.model;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "complaint")
+@Data
 public class Complaint {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "complaintID")
+    @Schema(description = "Unique identifier for the complaint",
+            format = "int32",
+            type = "integer")
     private int complaintId;
 
-    @ManyToOne
-    @JoinColumn(name = "bookingID", nullable = false)
-    private Booking booking;
+    @Schema(description = "Booking ID linked to the complaint", type = "integer", example = "1501")
+    private int bookingId;
 
-    @Column(name = "submittedby", nullable = false)
+    @Schema(description = "User ID of the person who submitted the complaint", type = "integer", example = "101")
     private int submittedBy;
 
-    @Column(name = "description", nullable = false)
+    @Schema(description = "Detailed description of the complaint",type = "String", example = "The caregiver arrived 2 hours late without prior notice.")
     private String description;
 
-    @CreationTimestamp
-    @Column(name = "createdat", updatable = false)
+    @Schema(description = "Timestamp when the complaint was submitted", example = "2025-08-22T10:30:45", type = "Local date and time")
     private LocalDateTime createdAt;
-
-    // Getters and setters
 
     public int getComplaintId() {
         return complaintId;
@@ -38,13 +33,12 @@ public class Complaint {
         this.complaintId = complaintId;
     }
 
-    public Booking getBooking() {
-
-        return booking;
+    public int getBookingId() {
+        return bookingId;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public int getSubmittedBy() {
@@ -67,7 +61,6 @@ public class Complaint {
         return createdAt;
     }
 
-    // No setter for createdAt if you want it to be auto-set only
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }

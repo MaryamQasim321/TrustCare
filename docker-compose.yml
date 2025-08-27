@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - DOCKER_LAMBDA_USE_STUBS=true
+      - e LAMBDA_EXECUTOR=local
+      - SERVICES=sqs,sns,s3,ses,apigateway,lambda
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SNS_SES_SENDER_ADDRESS=test@localstack.com
+      - SES_SMTP_USER=test
+      - SES_SMTP_PASSWORD=test
+    volumes:
+      - "./localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"

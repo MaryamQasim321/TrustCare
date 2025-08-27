@@ -1,17 +1,17 @@
 package com.example.trustcare.controller;
-
 import com.example.trustcare.dto.AuthRequest;
 import com.example.trustcare.dto.AuthResponse;
 import com.example.trustcare.model.Admin;
 import com.example.trustcare.model.Caregiver;
 import com.example.trustcare.model.User;
-import com.example.trustcare.repository.AdminRepository;
-import com.example.trustcare.repository.CaregiverRepository;
-import com.example.trustcare.repository.UserRepository;
+import com.example.trustcare.repository.AdminDAO;
+import com.example.trustcare.repository.CaregiverDAO;
+import com.example.trustcare.repository.UserDAO;
 import com.example.trustcare.security.JWTUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,22 +26,16 @@ public class AuthController {
   private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
+    @Lazy
     private AuthenticationManager authenticationManager;
     @Autowired private JWTUtility jwtUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired private UserRepository userRepository;
-    @Autowired private CaregiverRepository caregiverRepository;
-    @Autowired private AdminRepository adminRepository;
-
-
-    //testing api
-    @GetMapping("/user")
-    public ResponseEntity<String> testUserEndpoint() {
-        return ResponseEntity.ok("This is a public endpoint for /auth/user");
-    }
-
-
+    @Autowired
+    @Lazy private UserDAO userDAO;
+    @Autowired
+    @Lazy private CaregiverDAO caregiverDAO;
+    @Autowired private AdminDAO adminDAO;
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         Authentication auth = authenticationManager.authenticate(
@@ -52,26 +46,24 @@ public class AuthController {
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
         return ResponseEntity.ok(new AuthResponse(token, role));
     }
-
     @PostMapping("/signUp/user")
     public  ResponseEntity<?> signupUser(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userDAO.saveUser(user);
         return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/signUp/caregiver")
     public  ResponseEntity<?> signupCaregiver(@RequestBody Caregiver caregiver){
         caregiver.setPassword(passwordEncoder.encode(caregiver.getPassword()));
-        caregiverRepository.save(caregiver);
+        caregiverDAO.saveCaregiver(caregiver);
         return ResponseEntity.ok("caregiver registered successfully");
     }
 
     @PostMapping("/signUp/admin")
     public  ResponseEntity<?> signupCaregiver(@RequestBody Admin admin){
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        adminRepository.save(admin);
+        adminDAO.saveAdmin(admin);
         return ResponseEntity.ok("admin registered successfully");
     }
-
 }

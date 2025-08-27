@@ -1,43 +1,36 @@
 package com.example.trustcare.Logging;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 @Aspect
 @Component
-public class LoggingAspects {
-
-    @Around("execution(* com.example.trustcare.controller..*(..))")
+public class LoggingAspect {
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+    @Around("execution(* com.example.trustcare.controller..*(..)) || " +
+            "execution(* com.example.trustcare.service.*(..)) || " +
+            "execution(* com.example.trustcare.repository..*(..)) || " +
+            "execution(* com.example.trustcare.security..*(..))")
     public Object logWithMDC(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            // Generate unique requestId for every request
             String requestId = UUID.randomUUID().toString();
             MDC.put("requestId", requestId);
-
-            // Get controller + method name
             String className = joinPoint.getTarget().getClass().getSimpleName();
-            String methodName = ((MethodSignature) joinPoint.getSignature()).getMethod().getName();
+            String methodName = joinPoint.getSignature().getName();
             MDC.put("controller", className);
             MDC.put("method", methodName);
-
-            // Log before execution
-            System.out.println(LogUtils.info("Entering " + className + "." + methodName));
-
-            // Proceed with method execution
+            logger.info(LogUtils.info("Entering " + className + "." + methodName));
             Object result = joinPoint.proceed();
-
-            // Log after execution
-            System.out.println(LogUtils.success("Exiting " + className + "." + methodName));
-
+            logger.info(LogUtils.success("Exiting " + className + "." + methodName));
             return result;
         } finally {
-            MDC.clear(); // clear to avoid memory leaks (important in multi-threaded apps)
+            MDC.clear();
         }
     }
 }

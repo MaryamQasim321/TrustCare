@@ -1,49 +1,46 @@
 package com.example.trustcare.model;
 
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "payment")
+@Data
 public class Payment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "paymentID")
-    private int paymentID;
+    @Schema(description = "Unique identifier of the payment", type = "integer", example = "9001")
+    private int paymentId;
 
-    @Column(name = "bookingID", nullable = false)
-    private int bookingID;
+    @Schema(description = "ID of the related booking", type = "integer", example = "3001")
+    private int bookingId;
 
-    @Column(name = "amount",nullable = false, precision = 12, scale = 2)
+    @Schema(description = "Amount paid", type = "big decimal", example = "1500.00")
     private BigDecimal amount;
 
-    @Column(name = "method",nullable = false, length = 50)
+    @Schema(description = "Payment method used", type = "String", example = "Credit Card")
     private String method;
 
-    @Column(name = "status",nullable = false, length = 50)
+    @Schema(description = "Current status of the payment", type = "String", example = "COMPLETED")
     private String status;
 
-    @Column(name = "paymentdate", nullable = false)
+    @Schema(description = "Date and time when the payment was made", type = "local date time", example = "2025-08-22T10:30:00")
     private LocalDateTime paymentDate;
 
-    // Getters and setters
-
-    public int getPaymentID() {
-        return paymentID;
+    public int getPaymentId() {
+        return paymentId;
     }
 
-    public void setPaymentID(int paymentID) {
-        this.paymentID = paymentID;
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
     }
 
-    public int getBookingID() {
-        return bookingID;
+    public int getBookingId() {
+        return bookingId;
     }
 
-    public void setBookingID(int bookingID) {
-        this.bookingID = bookingID;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public BigDecimal getAmount() {

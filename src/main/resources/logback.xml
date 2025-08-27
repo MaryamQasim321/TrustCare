@@ -1,10 +1,14 @@
-<configuration >
+<configuration>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-<encoder >
-    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-</encoder>
+        <encoder>
+            <pattern>
+                {
+                "timestamp":"%d{yyyy-MM-dd HH:mm:ss}", "level":"%level", "logger":"%logger", "thread":"%thread", "requestId":"%X{requestId}", "controller":"%X{controller}", "method":"%X{method}", "message":"%msg"
+                }
+            </pattern>
+        </encoder>
     </appender>
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

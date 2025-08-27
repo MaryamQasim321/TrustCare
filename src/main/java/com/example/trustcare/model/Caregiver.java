@@ -1,62 +1,59 @@
 package com.example.trustcare.model;
 
 import com.example.trustcare.enums.Role;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "caregiver")
+@Data
 public class Caregiver {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "caregiverID")
+    @Schema(description = "Unique identifier of caregiver",type = "integer", example = "201")
     private int careGiverId;
 
-    @Column(name = "fullname",nullable = true, length = 100)
+    @Schema(description = "Full name of the caregiver", type = "String", example = "Sarah Khan")
     private String fullName;
 
-    @Column(name = "email",nullable = true, unique = true, length = 100)
+    @Schema(description = "Email of caregiver",type = "String", example = "sarah.khan@example.com")
     private String email;
 
-    @Column(name = "password",nullable = true)
+    @Schema(description = "Password (hashed in database)", type = "String", example = "encryptedPassword123")
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Schema(description = "Role of the caregiver (default CAREGIVER)",  example = "CAREGIVER")
     private Role role = Role.CAREGIVER;
 
-    @Column(name = "cnic", nullable = true, unique = true, length = 20)
+    @Schema(description = "National CNIC of caregiver", type = "String", example = "35202-1234567-8")
     private String CNIC;
 
-    @Column(name = "experienceYears",nullable = true)
-    private int experienceYears;
+    @Schema(description = "Years of caregiving experience", type = "integer", example = "5")
+    private Integer experienceYears;
 
-    // Changed from float to BigDecimal for money-related precision
-    @Column(name = "monthlyRate",nullable = true, precision = 10, scale = 2)
+    @Schema(description = "Monthly rate charged by caregiver", type = "big decimal", example = "50000.00")
     private BigDecimal monthlyRate;
 
-    @CreationTimestamp
-    @Column(name = "createdAt",updatable = true)
+    @Schema(description = "Account creation timestamp", type = "local date time", example = "2025-08-22T09:15:30")
     private LocalDateTime createdAt;
 
+    @Schema(description = "City or area of caregiver", type = "String", example = "Lahore, Pakistan")
     private String location;
 
-    @Column(name = "bio")
+    @Schema(description = "Short bio or description", type = "String", example = "Experienced elderly care specialist with 5+ years of experience.")
     private String bio;
 
-    private String contact;
+    @Schema(description = "Phone number of caregiver", type = "String", example = "+92-300-1234567")
+    private String phoneNumber;
 
+    @Schema(description = "Complete address of caregiver", type = "String", example = "123 Street, Model Town, Lahore")
     private String address;
 
-    @Column(name = "isverified",nullable = true)
+    @Schema(description = "Whether caregiver profile is verified", type = "boolean", example = "true")
     private boolean isVerified;
 
-    // Getters and setters
-
     public int getCareGiverId() {
+
         return careGiverId;
     }
 
@@ -88,6 +85,14 @@ public class Caregiver {
         this.password = password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getCNIC() {
         return CNIC;
     }
@@ -96,11 +101,11 @@ public class Caregiver {
         this.CNIC = CNIC;
     }
 
-    public int getExperienceYears() {
+    public Integer getExperienceYears() {
         return experienceYears;
     }
 
-    public void setExperienceYears(int experienceYears) {
+    public void setExperienceYears(Integer experienceYears) {
         this.experienceYears = experienceYears;
     }
 
@@ -136,12 +141,12 @@ public class Caregiver {
         this.bio = bio;
     }
 
-    public String getContact() {
-        return contact;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {
@@ -152,11 +157,11 @@ public class Caregiver {
         this.address = address;
     }
 
-    public boolean getIsVerified() {
+    public boolean isVerified() {
         return isVerified;
     }
 
-    public void setIsVerified(boolean isVerified) {
-        this.isVerified = isVerified;
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 }

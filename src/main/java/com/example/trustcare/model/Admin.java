@@ -1,33 +1,28 @@
 package com.example.trustcare.model;
 
 import com.example.trustcare.enums.Role;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Entity
-@Table(name = "admin")
+@Data
+@Schema(description = "Admin entity representing an administrator in trustcare system.")
 public class Admin {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "adminID")
+    @Schema(description = "Unique identifier for the admin", type = "integer", example = "1")
     private int adminId;
 
-    @Column(name = "fullname", nullable = true)
+    @Schema(description = "Full name of the admin",type = "String", example = "Alice Johnson")
     private String fullName;
 
-    @Column(name = "email", nullable = true, unique = true)
+    @Schema(description = "Email address of the admin", type = "String", example = "admin@trustcare.com")
     private String email;
 
-    @Column(name = "password", nullable = true)
+    @Schema(description = "Password for authentication (stored securely)", type = "String", example = "P@ssw0rd")
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Schema(description = "Role of the admin (default = ADMIN)",  example = "ADMIN")
     private Role role = Role.ADMIN;
-    public Admin() {
-        // no-args constructor needed by JPA
-    }
 
-    // Getters and setters
 
     public int getAdminId() {
         return adminId;
@@ -59,5 +54,13 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

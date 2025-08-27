@@ -1,46 +1,46 @@
 package com.example.trustcare.model;
-import com.example.trustcare.enums.Role;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 
+import com.example.trustcare.enums.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 
-
-@Entity
-@Table(name = "user")
+@Data
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId", nullable = true)
-        private int userId;
-    @Column(name = "fullName", nullable = true)
+    @Schema(description = "Unique identifier for the user", type = "integer", example = "1001")
+    private Integer userId;
 
+    @Schema(description = "Full name of the user", type = "String", example = "Maryam Qasim")
     private String fullName;
-    @Column(name = "address", nullable = true)
 
+    @Schema(description = "Residential address of the user",type = "String", example = "123 Main Street, Karachi, Pakistan")
     private String address;
-    @Column(name = "email", nullable = true)
 
+    @Schema(description = "Email address of the user", type = "String", example = "maryam@example.com")
     private String email;
-    @Column(name = "password", nullable = true)
 
+    @Schema(description = "Password (hashed in DB)", type = "String", example = "hashedPassword123")
     private String password;
-    @Column(name = "contact", nullable = true)
 
+    @Schema(description = "Contact number of the user", type = "String", example = "+92-300-1234567")
     private String contact;
-    @CreationTimestamp
-    @Column(name = "createdAt", updatable = false)
+
+    @Schema(description = "Timestamp when the user account was created", type = "local date time", example = "2025-08-22 10:15:30")
     private Timestamp createdAt;
 
-    @Enumerated(EnumType.STRING)
+    @Schema(description = "Role assigned to the user", example = "USER")
     private Role role = Role.USER;
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -90,5 +90,13 @@ public class User {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

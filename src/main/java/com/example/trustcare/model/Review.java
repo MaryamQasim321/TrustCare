@@ -1,32 +1,27 @@
 package com.example.trustcare.model;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "review")
+@Data
 public class Review {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reviewID")
+    @Schema(description = "Unique identifier of the review", type = "integer", example = "101")
     private int reviewId;
 
-    @Column(name = "bookingID", nullable = false)
+    @Schema(description = "ID of the booking this review is associated with", type = "integer", example = "3001")
     private int bookingId;
 
-    @Column(name = "comment")
+    @Schema(description = "Review comment provided by the customer", type = "String", example = "Excellent service and friendly staff.")
     private String comment;
 
-    @CreationTimestamp
-    @Column(name = "createdat", updatable = false)
+    @Schema(description = "Date and time when the review was created", type = "local date time", example = "2025-08-22T14:30:00")
     private LocalDateTime createdAt;
 
-    @Column(name = "rating",nullable = false)
+    @Schema(description = "Rating given by the customer (1 to 5)", type = "String", example = "5")
     private int rating;
-
 
     public int getReviewId() {
         return reviewId;
@@ -56,7 +51,6 @@ public class Review {
         return createdAt;
     }
 
-    // Usually createdAt is auto-set, so setter is optional
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }

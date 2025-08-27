@@ -1,19 +1,26 @@
-package com.example.trustcare.dao;
+package com.example.trustcare.repository;
 
 import com.example.trustcare.Logging.LogUtils;
 import com.example.trustcare.model.Booking;
 import com.example.trustcare.model.Caregiver;
 import com.example.trustcare.model.Complaint;
+//import com.example.trustcare.service.SqsProducerService;
+import com.example.trustcare.model.User;
+import com.example.trustcare.service.SnsPublisherService;
+import com.example.trustcare.service.SubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -22,9 +29,13 @@ public class CaregiverDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(CaregiverDAO.class);
     private final JdbcTemplate jdbcTemplate;
+    private final SnsPublisherService snsPublisherService;
+    private final UserDAO userDAO;
 
-    public CaregiverDAO(JdbcTemplate jdbcTemplate) {
+    public CaregiverDAO(JdbcTemplate jdbcTemplate, SnsPublisherService snsPublisherService,@Lazy UserDAO userDAO) {
+        this.snsPublisherService=snsPublisherService;
         this.jdbcTemplate = jdbcTemplate;
+        this.userDAO = userDAO;
     }
 
 
@@ -44,12 +55,54 @@ public class CaregiverDAO {
             "UPDATE Booking SET Status = 'REJECTED' WHERE BookingID = ?";
     private static final String VIEW_COMPLAINTS_FOR_CAREGIVER =
             "SELECT c.* FROM Complaint c JOIN Booking b ON b.BookingID = c.BookingID WHERE b.CaregiverID = ?";
-
-
+    private static final String GET_CAREGIVER_BY_EMAIL = "SELECT * FROM caregiver WHERE email = ?";
     private static final String SAVE_CNIC_URL =
             "INSERT INTO CNICUploads (CaregiverID, CNICUrl) VALUES (?, ?)";
+    private static final String SAVE_CAREGIVER="insert into caregiver(email, password) values (?, ?)";
+    private static final String GET_BOOKING_BY_ID="select * from booking where bookingID = ?";
 
 
+    public void saveCaregiver(Caregiver caregiver) {
+        try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection->{
+                        PreparedStatement statement=connection.prepareStatement(
+                                SAVE_CAREGIVER, Statement.RETURN_GENERATED_KEYS
+                        );
+                        statement.setString(1, caregiver.getEmail());
+                        statement.setString(2, caregiver.getPassword());
+                        return statement;
+                    },keyHolder
+
+            );
+            int userID=keyHolder.getKey().intValue();
+
+            logger.info(LogUtils.info("user saved with email: " + caregiver.getEmail()));
+        } catch (Exception e) {
+            logger.error(LogUtils.error("Error adding user: " + e.getMessage()));
+        }
+    }
+
+
+    public Booking getBookingById(int bookingId) {
+        try{
+            return jdbcTemplate.queryForObject(GET_BOOKING_BY_ID, new BeanPropertyRowMapper<>(Booking.class), bookingId);
+
+        }
+        catch (Exception e) {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+
+    public Caregiver getCaregiverByEmail(String email) {
+        try{
+            return jdbcTemplate.queryForObject(GET_CAREGIVER_BY_EMAIL, new BeanPropertyRowMapper<>(Caregiver.class), email);
+
+        }
+        catch (Exception e) {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
 
 
     public List<Caregiver> getAllCareGivers() {
@@ -125,37 +178,39 @@ public class CaregiverDAO {
 
 
 
-
-
-
     public void acceptBooking(int bookingId) {
         jdbcTemplate.update(ACCEPT_BOOKING, bookingId);
         logger.info(LogUtils.info("Booiking accepted"));
-
-
+        Booking booking=getBookingById(bookingId);
+        int caregiverId=booking.getCaregiverId();
+        int userId=booking.getUserId();
+        User user=userDAO.viewUserProfile(userId);
+        snsPublisherService.publishEmailNotification(
+                "Booking Accepted",
+                "Your booking with caregiver ID " + caregiverId + " has been accepted.",
+                List.of(user.getEmail())
+        );
+        logger.info(LogUtils.info("Booking accepted  " + userId + ", BookingID: " + bookingId));
     }
-
-
-
     public void rejectBooking(int bookingId) {
             jdbcTemplate.update(REJECT_BOOKING, bookingId);
         logger.info(LogUtils.info("Booiking rejected"));
-
+        Booking booking=getBookingById(bookingId);
+        int caregiverId=booking.getCaregiverId();
+        int userId=booking.getUserId();
+        User user=userDAO.viewUserProfile(userId);
+        snsPublisherService.publishEmailNotification(
+                "Booking rejected",
+                "Your booking with caregiver ID " + caregiverId + " has been rejected.",
+                List.of(user.getEmail())
+        );
     }
-
-
-
-
 
     public List<Complaint> viewComplaints(int caregiverId) {
         return jdbcTemplate.query(VIEW_COMPLAINTS_FOR_CAREGIVER,
                 new BeanPropertyRowMapper<>(Complaint.class),
                 caregiverId);
     }
-
-
-
-
 
     public void editCaregiverProfile(int caregiverId, Caregiver caregiver) {
         List<String> updates = new ArrayList<>();
@@ -182,4 +237,5 @@ public class CaregiverDAO {
         jdbcTemplate.update(sql, params.toArray());
         logger.info(LogUtils.info("Caregiver profile updated: " + caregiverId));
     }
+
 }
