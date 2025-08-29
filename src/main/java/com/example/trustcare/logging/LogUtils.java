@@ -1,4 +1,4 @@
-package com.example.trustcare.Logging;
+package com.example.trustcare.logging;
 public class LogUtils {
     public static String warn(String message){
         return "{\"status\": \"warn\", \"message\": \"" + message + "\"}";

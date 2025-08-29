@@ -1,14 +1,13 @@
 package com.example.trustcare.repository;
 
-import com.example.trustcare.Logging.LogUtils;
+import com.example.trustcare.logging.LogUtils;
 import com.example.trustcare.model.Admin;
 import com.example.trustcare.model.Caregiver;
 import com.example.trustcare.model.Complaint;
 import com.example.trustcare.model.Payment;
-import com.example.trustcare.service.SubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -73,13 +72,12 @@ public class AdminDAO {
         return admin;
     }
 
-
     public Admin getAdminByEmail(String email) {
-
-
-        Admin admin=jdbcTemplate.queryForObject(GET_ADMIN_BY_EMAIL, new BeanPropertyRowMapper<>(Admin.class), email);
-
-       return admin;
+        try {
+            return jdbcTemplate.queryForObject(GET_ADMIN_BY_EMAIL, new BeanPropertyRowMapper<>(Admin.class), email);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 

@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/signUp/admin")
-    public  ResponseEntity<?> signupCaregiver(@RequestBody Admin admin){
+    public  ResponseEntity<?> signupAdmin(@RequestBody Admin admin){
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         adminDAO.saveAdmin(admin);
         return ResponseEntity.ok("admin registered successfully");

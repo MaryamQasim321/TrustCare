@@ -1,13 +1,12 @@
 package com.example.trustcare.repository;
 
-import com.example.trustcare.Logging.LogUtils;
+import com.example.trustcare.logging.LogUtils;
 import com.example.trustcare.model.Booking;
 import com.example.trustcare.model.Caregiver;
 import com.example.trustcare.model.Complaint;
 //import com.example.trustcare.service.SqsProducerService;
 import com.example.trustcare.model.User;
 import com.example.trustcare.service.SnsPublisherService;
-import com.example.trustcare.service.SubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;

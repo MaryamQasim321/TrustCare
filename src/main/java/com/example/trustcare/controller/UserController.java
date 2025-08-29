@@ -1,11 +1,10 @@
 package com.example.trustcare.controller;
 
-import com.example.trustcare.Logging.LogUtils;
+import com.example.trustcare.logging.LogUtils;
 import com.example.trustcare.dto.BookingRequest;
 import com.example.trustcare.dto.ComplaintRequest;
 import com.example.trustcare.dto.ReviewRequest;
 import com.example.trustcare.model.Booking;
-import com.example.trustcare.model.Complaint;
 import com.example.trustcare.model.Payment;
 import com.example.trustcare.model.User;
 import com.example.trustcare.repository.UserDAO;
@@ -27,7 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")

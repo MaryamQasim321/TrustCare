@@ -24,44 +24,45 @@ public class Complaint {
 
     @Schema(description = "Timestamp when the complaint was submitted", example = "2025-08-22T10:30:45", type = "Local date and time")
     private LocalDateTime createdAt;
+//
+//    public int getComplaintId() {
+//        return complaintId;
+//    }
+//
+//    public void setComplaintId(int complaintId) {
+//        this.complaintId = complaintId;
+//    }
+//
+//    public int getBookingId() {
+//        return bookingId;
+//    }
+//
+//    public void setBookingId(int bookingId) {
+//        this.bookingId = bookingId;
+//    }
+//
+//    public int getSubmittedBy() {
+//        return submittedBy;
+//    }
+//
+//    public void setSubmittedBy(int submittedBy) {
+//        this.submittedBy = submittedBy;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(LocalDateTime createdAt) {
+//        this.createdAt = createdAt;
+//    }
 
-    public int getComplaintId() {
-        return complaintId;
-    }
-
-    public void setComplaintId(int complaintId) {
-        this.complaintId = complaintId;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public int getSubmittedBy() {
-        return submittedBy;
-    }
-
-    public void setSubmittedBy(int submittedBy) {
-        this.submittedBy = submittedBy;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

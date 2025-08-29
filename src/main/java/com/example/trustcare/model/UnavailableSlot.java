@@ -26,52 +26,52 @@ public class UnavailableSlot {
 
     @Schema(description = "Timestamp when this slot was created", type = "local date time", example = "2025-08-22T09:30:00")
     private LocalDateTime createdAt;
-
-    public int getSlotId() {
-        return slotId;
-    }
-
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
-
-    public int getCaregiverId() {
-        return caregiverId;
-    }
-
-    public void setCaregiverId(int caregiverId) {
-        this.caregiverId = caregiverId;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+//
+//    public int getSlotId() {
+//        return slotId;
+//    }
+//
+//    public void setSlotId(int slotId) {
+//        this.slotId = slotId;
+//    }
+//
+//    public int getCaregiverId() {
+//        return caregiverId;
+//    }
+//
+//    public void setCaregiverId(int caregiverId) {
+//        this.caregiverId = caregiverId;
+//    }
+//
+//    public String getReason() {
+//        return reason;
+//    }
+//
+//    public void setReason(String reason) {
+//        this.reason = reason;
+//    }
+//
+//    public LocalDate getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(LocalDate startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    public LocalDate getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(LocalDate endDate) {
+//        this.endDate = endDate;
+//    }
+//
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(LocalDateTime createdAt) {
+//        this.createdAt = createdAt;
+//    }
 }

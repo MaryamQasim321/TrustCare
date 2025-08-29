@@ -1,6 +1,6 @@
 package com.example.trustcare.controller;
 
-import com.example.trustcare.Logging.LogUtils;
+import com.example.trustcare.logging.LogUtils;
 import com.example.trustcare.model.*;
 import com.example.trustcare.repository.AdminDAO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class AdminController {
                     )
             }
     )
-    @PreAuthorize("hasRole('AMDIN')")
     @GetMapping("/caregiver-verifications")
     public ResponseEntity<?> getUnverifiedCaregivers() {
         try {
@@ -69,7 +67,6 @@ public class AdminController {
                     )
             }
     )
-    @PreAuthorize("hasRole('AMDIN')")
     @PutMapping("/caregiver-verifications/{caregiverId}/approve")
     public ResponseEntity<?> approveCaregiver(@PathVariable int caregiverId) {
         try {
@@ -100,7 +97,6 @@ public class AdminController {
                     )
             }
     )
-    @PreAuthorize("hasRole('AMDIN')")
     @PutMapping("/caregiver-verifications/{caregiverId}/reject")
     public ResponseEntity<?> rejectCaregiver(@PathVariable int caregiverId) {
         try {
@@ -128,7 +124,6 @@ public class AdminController {
                     )
             }
     )
-    @PreAuthorize("hasRole('AMDIN')")
     @GetMapping("/complaints")
     public ResponseEntity<?> getComplaints() {
         try {
@@ -156,7 +151,6 @@ public class AdminController {
             }
     )
 
-    @PreAuthorize("hasRole('AMDIN')")
     @GetMapping("/payments")
     public ResponseEntity<?> getPayments() {
         try {

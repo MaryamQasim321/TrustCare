@@ -23,43 +23,43 @@ public class Review {
     @Schema(description = "Rating given by the customer (1 to 5)", type = "String", example = "5")
     private int rating;
 
-    public int getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
+//    public int getReviewId() {
+//        return reviewId;
+//    }
+//
+//    public void setReviewId(int reviewId) {
+//        this.reviewId = reviewId;
+//    }
+//
+//    public int getBookingId() {
+//        return bookingId;
+//    }
+//
+//    public void setBookingId(int bookingId) {
+//        this.bookingId = bookingId;
+//    }
+//
+//    public String getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(String comment) {
+//        this.comment = comment;
+//    }
+//
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(LocalDateTime createdAt) {
+//        this.createdAt = createdAt;
+//    }
+//
+//    public int getRating() {
+//        return rating;
+//    }
+//
+//    public void setRating(int rating) {
+//        this.rating = rating;
+//    }
 }

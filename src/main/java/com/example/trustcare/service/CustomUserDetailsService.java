@@ -28,20 +28,22 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return Optional.ofNullable(userDAO.getUserByEmail(email))
-                .map(u -> buildUser(u.getEmail(), u.getPassword(), Role.USER))
+        return Optional.ofNullable(adminDAO.getAdminByEmail(email))
+                .map(a -> buildUser(a.getEmail(), a.getPassword(), Role.ADMIN))
+                .or(() -> Optional.ofNullable(userDAO.getUserByEmail(email))
+                        .map(u -> buildUser(u.getEmail(), u.getPassword(), Role.USER)))
                 .or(() -> Optional.ofNullable(caregiverDAO.getCaregiverByEmail(email))
                         .map(c -> buildUser(c.getEmail(), c.getPassword(), Role.CAREGIVER)))
-                .or(() -> Optional.ofNullable(adminDAO.getAdminByEmail(email))
-                        .map(a -> buildUser(a.getEmail(), a.getPassword(), Role.ADMIN)))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
 
     private UserDetails buildUser(String email, String password, Role role) {
         return new org.springframework.security.core.userdetails.User(
                 email,
                 password,
-                List.of(new SimpleGrantedAuthority(role.name()))
+                List.of(new SimpleGrantedAuthority("ROLE_" + role.name())) // add ROLE_ prefix
         );
     }
+
 }

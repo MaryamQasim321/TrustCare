@@ -1,6 +1,6 @@
 package com.example.trustcare.repository;
 
-import com.example.trustcare.Logging.LogUtils;
+import com.example.trustcare.logging.LogUtils;
 import com.example.trustcare.model.*;
 //import com.example.trustcare.service.SqsProducerService;
 import com.example.trustcare.service.SnsPublisherService;
@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -85,6 +84,7 @@ public class UserDAO {
             logger.error(LogUtils.error("Error adding user: " + e.getMessage()));
         }
     }
+
 
 
 

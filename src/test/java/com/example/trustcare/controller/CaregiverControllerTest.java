@@ -1,139 +1,132 @@
-//package com.example.trustcare.controllers;
-//
-//import com.example.trustcare.controller.CaregiverController;
-//import com.example.trustcare.dto.AvailabilityRequest;
-//import com.example.trustcare.model.Booking;
-//import com.example.trustcare.model.Caregiver;
-//import com.example.trustcare.model.Complaint;
-//import com.example.trustcare.repository.CaregiverDAO;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import java.time.LocalDate;
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import static org.mockito.Mockito.*;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@WebMvcTest(CaregiverController.class)
-//public class CaregiverControllerTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private CaregiverDAO caregiverDAO;
-//
-//    @Autowired
-//    private ObjectMapper objectMapper;
-//
-//    @Test
-//    void testGetCaregiverById() throws Exception {
-//        Caregiver caregiver = new Caregiver();
-//        when(caregiverDAO.getCaregiverById(1)).thenReturn(caregiver);
-//
-//        mockMvc.perform(get("/caregivers/1")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//
-//        verify(caregiverDAO, times(1)).getCaregiverById(1);
-//    }
-//
-//    @Test
-//    void testEditCaregiver() throws Exception {
-//        Caregiver caregiver = new Caregiver();
-//        mockMvc.perform(put("/caregivers/1/edit")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(caregiver)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("caregiver edited"));
-//
-//        verify(caregiverDAO, times(1)).editCaregiverProfile(eq(1), any(Caregiver.class));
-//    }
-//
-//    @Test
-//    void testGetIncomingRequests() throws Exception {
-//        List<Booking> bookings = Arrays.asList(new Booking(), new Booking());
-//        when(caregiverDAO.getIncomingBookings(1)).thenReturn(bookings);
-//
-//        mockMvc.perform(get("/caregivers/1/requests")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(2));
-//
-//        verify(caregiverDAO, times(1)).getIncomingBookings(1);
-//    }
-//
-//    @Test
-//    void testAcceptBooking() throws Exception {
-//        mockMvc.perform(put("/caregivers/1/requests/10/accept"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Booking accepted."));
-//
-//        verify(caregiverDAO, times(1)).acceptBooking(10);
-//    }
-//
-//    @Test
-//    void testRejectBooking() throws Exception {
-//        mockMvc.perform(put("/caregivers/1/requests/10/reject"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Booking rejected."));
-//
-//        verify(caregiverDAO, times(1)).rejectBooking(10);
-//    }
-//
-//    @Test
-//    void testViewComplaints() throws Exception {
-//        List<Complaint> complaints = Arrays.asList(new Complaint(), new Complaint());
-//        when(caregiverDAO.viewComplaints(1)).thenReturn(complaints);
-//
-//        mockMvc.perform(get("/caregivers/1/complaints")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(2));
-//
-//        verify(caregiverDAO, times(1)).viewComplaints(1);
-//    }
-//
-//    @Test
-//    void testGetAvailableDays() throws Exception {
-//        AvailabilityRequest request = new AvailabilityRequest();
-//        request.setStartDate("2025-08-01");
-//        request.setEndDate("2025-08-05");
-//
-//        List<LocalDate> days = Arrays.asList(LocalDate.of(2025,8,1),
-//                LocalDate.of(2025,8,2));
-//        when(caregiverDAO.getAvailableDays(eq(1), any(LocalDate.class), any(LocalDate.class))).thenReturn(days);
-//
-//        mockMvc.perform(get("/caregivers/1/availability")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(2));
-//
-//        verify(caregiverDAO, times(1)).getAvailableDays(eq(1), any(LocalDate.class), any(LocalDate.class));
-//    }
-//
-//    @Test
-//    void testSetAvailability() throws Exception {
-//        AvailabilityRequest request = new AvailabilityRequest();
-//        request.setStartDate("2025-08-01");
-//        request.setEndDate("2025-08-05");
-//        request.setReason("Vacation");
-//
-//        mockMvc.perform(post("/caregivers/1/availability")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("Availability updated."));
-//
-//        verify(caregiverDAO, times(1)).setAvailableSlots(eq(1), any(LocalDate.class), any(LocalDate.class), eq("Vacation"));
-//    }
-//}
+package com.example.trustcare.controller;
+
+import com.example.trustcare.dto.AvailabilityRequest;
+import com.example.trustcare.model.Booking;
+import com.example.trustcare.model.Caregiver;
+import com.example.trustcare.model.Complaint;
+import com.example.trustcare.repository.CaregiverDAO;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+
+class CaregiverControllerTest {
+
+    private CaregiverDAO caregiverDAOMock;
+    private CaregiverController caregiverController;
+
+    @BeforeEach
+    void setUp() {
+        caregiverDAOMock = Mockito.mock(CaregiverDAO.class);
+        caregiverController = new CaregiverController(caregiverDAOMock);
+    }
+
+    @Test
+    void testGetCaregiverById() {
+        Caregiver caregiver = new Caregiver();
+        caregiver.setCareGiverId(1);
+        caregiver.setFullName("John Doe");
+
+        Mockito.when(caregiverDAOMock.getCaregiverById(1)).thenReturn(caregiver);
+
+        Caregiver result = caregiverController.getCaregiverById(1);
+        assertEquals(caregiver, result);
+    }
+
+    @Test
+    void testEditCaregiver() {
+        Caregiver caregiver = new Caregiver();
+        caregiver.setCareGiverId(1);
+
+        String result = caregiverController.editCaregiver(1, caregiver);
+
+        Mockito.verify(caregiverDAOMock).editCaregiverProfile(1, caregiver);
+        assertEquals("caregiver edited", result);
+    }
+
+    @Test
+    void testGetIncomingRequests() {
+        Booking booking = new Booking();
+        booking.setBookingId(1);
+        List<Booking> bookings = Collections.singletonList(booking);
+
+        Mockito.when(caregiverDAOMock.getIncomingBookings(1)).thenReturn(bookings);
+
+        List<Booking> result = caregiverController.getIncomingRequests(1);
+        assertEquals(bookings, result);
+    }
+
+    @Test
+    void testAcceptBooking() {
+        String result = caregiverController.acceptBooking(1, 100);
+
+        Mockito.verify(caregiverDAOMock).acceptBooking(100);
+        assertEquals("Booking accepted.", result);
+    }
+
+    @Test
+    void testRejectBooking() {
+        String result = caregiverController.rejectBooking(1, 100);
+
+        Mockito.verify(caregiverDAOMock).rejectBooking(100);
+        assertEquals("Booking rejected.", result);
+    }
+
+    @Test
+    void testViewComplaints() {
+        Complaint complaint = new Complaint();
+        complaint.setComplaintId(1);
+        List<Complaint> complaints = Collections.singletonList(complaint);
+
+        Mockito.when(caregiverDAOMock.viewComplaints(1)).thenReturn(complaints);
+
+        List<Complaint> result = caregiverController.viewComplaints(1);
+        assertEquals(complaints, result);
+    }
+
+    @Test
+    void testGetAvailableDays() {
+        AvailabilityRequest request = new AvailabilityRequest();
+        request.setStartDate("2025-08-28");
+        request.setEndDate("2025-08-30");
+
+        List<LocalDate> availableDays = Arrays.asList(
+                LocalDate.parse("2025-08-28"),
+                LocalDate.parse("2025-08-29"),
+                LocalDate.parse("2025-08-30")
+        );
+
+        Mockito.when(caregiverDAOMock.getAvailableDays(eq(1),
+                        any(LocalDate.class), any(LocalDate.class)))
+                .thenReturn(availableDays);
+
+        List<LocalDate> result = caregiverController.getAvailableDays(1, request);
+        assertEquals(availableDays, result);
+    }
+
+    @Test
+    void testSetAvailability() {
+        AvailabilityRequest request = new AvailabilityRequest();
+        request.setStartDate("2025-08-28");
+        request.setEndDate("2025-08-30");
+        request.setReason("Vacation");
+
+        String result = caregiverController.setAvailability(1, request);
+
+        Mockito.verify(caregiverDAOMock).setAvailableSlots(
+                eq(1),
+                eq(LocalDate.parse("2025-08-28")),
+                eq(LocalDate.parse("2025-08-30")),
+                eq("Vacation")
+        );
+
+        assertEquals("Availability updated.", result);
+    }
+}

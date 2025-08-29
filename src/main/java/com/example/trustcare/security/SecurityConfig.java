@@ -29,7 +29,7 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/swagger-ui.html").permitAll()
                 .requestMatchers("/caregivers/**").permitAll()
-                .requestMatchers("/admins/**").permitAll()
+                .requestMatchers("/admin/**").permitAll()
                 .requestMatchers("/users/**").permitAll()
                 //use env
                 .anyRequest().authenticated()
